@@ -1,4 +1,5 @@
-# 🛒 Negozio online – Vendite e clienti (dataset Online Retail II)
+# 🛒 Negozio online – Vendite e clienti 
+# (dataset Online Retail II)
 
 Progetto di **Francesco Autorino** – Data Analyst.
 
