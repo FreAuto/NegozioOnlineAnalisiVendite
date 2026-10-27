@@ -1,0 +1,43 @@
+// =====================================================================
+//  MISURE DAX – NegozioOnline
+//  Sono già dentro la dashboard: qui sono elencate per leggerle e riusarle
+// =====================================================================
+
+
+// ---------- tabella vendite_mensili ----------
+Ricavi (mln £) = DIVIDE ( SUM ( vendite_mensili[ricavi] ), 1000000 )
+Ricavi Totali = SUM ( vendite_mensili[ricavi] )
+Scontrini = SUM ( vendite_mensili[ordini] )
+Scontrino Medio = DIVIDE ( [Ricavi Totali], [Scontrini] )
+
+// ---------- tabella vendite_giorno_ora ----------
+Ricavi Ora = SUM ( vendite_giorno_ora[ricavi] )
+
+// ---------- tabella prodotti ----------
+N Prodotti = COUNTROWS ( prodotti )
+Ricavi Prodotti = SUM ( prodotti[ricavi] )
+
+// ---------- tabella paesi_esteri ----------
+Ricavi Estero = SUM ( paesi_esteri[ricavi] )
+
+// ---------- tabella clienti_rfm ----------
+N Clienti = COUNTROWS ( clienti_rfm )
+Spesa Clienti = SUM ( clienti_rfm[spesa] )
+% Clienti = DIVIDE ( COUNTROWS ( clienti_rfm ), CALCULATE ( COUNTROWS ( clienti_rfm ), ALL ( clienti_rfm ) ) )
+% Spesa = DIVIDE ( [Spesa Clienti], CALCULATE ( [Spesa Clienti], ALL ( clienti_rfm ) ) )
+Clienti 1 Acquisto % = DIVIDE ( CALCULATE ( COUNTROWS ( clienti_rfm ), clienti_rfm[frequenza] = 1 ), COUNTROWS ( clienti_rfm ) )
+Spesa Campioni % = DIVIDE ( CALCULATE ( [Spesa Clienti], clienti_rfm[segmento] = "Campioni" ), CALCULATE ( [Spesa Clienti], ALL ( clienti_rfm ) ) )
+
+// ---------- tabella coorti ----------
+Ritorno % = AVERAGE ( coorti[ritorno_pct] )
+
+// ---------- tabella ritorno_medio ----------
+Ritorno Medio % = AVERAGE ( ritorno_medio[ritorno_medio_pct] )
+Ritorno 1 Mese % = DIVIDE ( CALCULATE ( AVERAGE ( ritorno_medio[ritorno_medio_pct] ), ritorno_medio[mesi_dopo] = 1 ), 100 )
+
+// ---------- tabella resi_mensili ----------
+Resi su Vendite % = DIVIDE ( SUM ( resi_mensili[valore_resi] ), SUM ( resi_mensili[ricavi] ) )
+Valore Resi = SUM ( resi_mensili[valore_resi] )
+
+// ---------- tabella carrello_coppie ----------
+Scontrini Insieme = SUM ( carrello_coppie[ordini_insieme] )
