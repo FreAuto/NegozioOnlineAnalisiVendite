@@ -1,5 +1,6 @@
-# 🛒 Negozio online – Vendite e clienti 
-# (dataset Online Retail II)
+# 🛒 Negozio online – Vendite e clienti (dataset Online Retail II)
+
+![Negozio online](copertina.png)
 
 Progetto di **Francesco Autorino** – Data Analyst.
 
@@ -27,7 +28,7 @@ Progetto di **Francesco Autorino** – Data Analyst.
 
 6️⃣ ↩️ Quanto pesano i resi?
 
-📝 Le risposte complete sono in **02Python/02_CONCLUSIONI.md**.
+📝 Le risposte complete sono in **04Python/CONCLUSIONI.md**.
 
 ---
 
@@ -83,55 +84,47 @@ onlineretail2.rda ──► ❌ 1.067.371 righe ──► ✅ 1.003.336 righe �
 
 ---
 
-## 📁 5. I file in questo repository
+## 📁 5. Tutti i file, uno per uno
+
+### 📄 Cartella principale
 
 | File | A cosa serve |
 |---|---|
 | `README.md` | Questo file |
-| `DESCRIZIONE_GITHUB.md` | Nome, descrizione e topics del repository |
-| `00_LEGGIMI.md` (in ogni cartella) | Una spiegazione corta di quella cartella |
+| `LEGGIMI.md` (in ogni cartella) | Una spiegazione corta di quella cartella |
 
-### 📂 01SQL
-
-| File | A cosa serve |
-|---|---|
-| `01_schema_concettuale.png` | 🧩 Lo schema concettuale (modello Entità-Relazione) |
-| `02_schema_logico.png` | 🗂️ Lo schema logico: tabelle, chiavi PK/FK e collegamenti |
-| `03_crea_database.sql` | Crea le tabelle `vendite`, `resi`, `clienti_rfm` con gli indici |
-| `04_query_analisi.sql` | **21 query** divise per domanda: LAG, RANK, NTILE, somme cumulate, self-join per il carrello |
-
-
-🧩 **Schema concettuale**
-
-![Schema concettuale](01SQL/01_schema_concettuale.png)
-
-🗂️ **Schema logico**
-
-![Schema logico](01SQL/02_schema_logico.png)
-
-### 📂 02Python
+### 📂 01RaccoltaDati
 
 | File | A cosa serve |
 |---|---|
-| `01_analisi_negozio_online.ipynb` | 📓 Il notebook con tutta l'analisi, già eseguito |
-| `02_CONCLUSIONI.md` | ✅ Le risposte alle 6 domande |
+| `01_scarica.py` | 📥 Scarica i dati (pacchetto R `onlineretail2` su GitHub, copia del dataset UCI) e li salva in CSV compresso |
+| `02_pulizia.py` | 🧹 Pulisce i dati e crea tutte le tabelle di analisi |
 
-### 📂 03PowerBi
+### 📂 02Dati
 
-| File | A cosa serve |
+**❌ 1GrezziNonPuliti** – i dati come scaricati
+
+| File | Cosa contiene |
 |---|---|
-| `01_NegozioOnlineDashboard.zip` | ⭐ **La dashboard**: estrai lo zip e apri `NegozioOnline_Dashboard.pbip` con Power BI Desktop |
-| `02_NegozioOnline_Dashboard.pdf` | 📄 Il PDF della dashboard |
-| `03_misure_DAX.txt` | 🧮 Le misure DAX usate nella dashboard |
+| `negozio_online_II.csv.gz` | I dati originali in CSV compresso: 1.067.371 righe, 8 colonne |
 
-📊 **Le 6 pagine della dashboard**
+**✅ 2Puliti** – le tabelle da usare
 
-1. **Il negozio**: 6 numeri chiave, ricavi per mese, per ora e per giorno
-2. **Prodotti e paesi**: classifica dei prodotti, paesi esteri, scontrino medio
-3. **Clienti (RFM)**: segmenti, ogni cliente in un grafico, migliori clienti, filtro per segmento
-4. **Ritorno**: matrice delle coorti e ritorno medio
-5. **Carrello e resi**: coppie di prodotti, resi per mese, prodotti più resi
-6. **Conclusioni**
+| File | Righe | Cosa contiene |
+|---|---|---|
+| `vendite.csv.gz` | 1.003.336 | Ogni riga venduta: scontrino, prodotto, quantità, data, prezzo, ricavo, cliente, paese |
+| `resi.csv.gz` | 17.912 | Ogni riga annullata o resa |
+| `vendite_mensili.csv` | 50 | Ricavi, scontrini e clienti per mese, Regno Unito vs estero |
+| `vendite_giorno_ora.csv` | 85 | Ricavi per giorno della settimana e ora |
+| `prodotti.csv` | 4.892 | Ogni prodotto con ricavi, pezzi, clienti e tasso di reso |
+| `paesi.csv` | 42 | Ricavi, scontrini, clienti e scontrino medio per paese |
+| `clienti_rfm.csv` | 5.852 | Ogni cliente con punteggi R, F, M e segmento |
+| `coorti.csv` | 325 | % di clienti che tornano N mesi dopo il primo acquisto |
+| `ritorno_medio.csv` | 12 | Ritorno medio per mese (senza la coorte di dicembre 2009) |
+| `carrello_coppie.csv` | 200 | Coppie di prodotti comprate insieme, con supporto, confidenza e lift |
+| `resi_mensili.csv` | 25 | Valore dei resi e % sulle vendite, per mese |
+| `prodotti_resi_top.csv` | 15 | I prodotti resi più spesso (almeno 10.000 £ di vendite) |
+| `registro_pulizia.csv` | 6 | Quante righe ha tolto ogni passo della pulizia |
 
 👑 **I segmenti RFM** (R = giorni dall'ultimo acquisto, F = numero di acquisti, M = spesa; punteggi da 1 a 5)
 
@@ -145,15 +138,70 @@ onlineretail2.rda ──► ❌ 1.067.371 righe ──► ✅ 1.003.336 righe �
 | A rischio | R ≤ 2 e F/M = 3 |
 | Persi | R ≤ 2 e F/M bassi |
 
+### 📂 03SQL
+
+| File | A cosa serve |
+|---|---|
+| `schema_concettuale.png` | 🧩 Lo schema concettuale (modello Entità-Relazione) |
+| `schema_logico.png` | 🗂️ Lo schema logico: tabelle, chiavi PK/FK e collegamenti |
+| `crea_schemi.py` | 🛠️ Disegna i 2 schemi con Graphviz |
+| `01_crea_database.sql` | Crea le tabelle `vendite`, `resi`, `clienti_rfm` con gli indici |
+| `02_carica_dati.py` | Crea `negozio_online.db` (SQLite) o carica su MySQL con `--mysql` |
+| `03_query_analisi.sql` | **21 query** divise per domanda: LAG, RANK, NTILE, somme cumulate, self-join per il carrello |
+
+📦 `negozio_online_db.zip` è il database compresso (49 MB invece di 190 MB): GitHub non accetta file sopra i 100 MB.
+Per usarlo: estrai lo zip dentro `03SQL` e apri `negozio_online.db` con DB Browser for SQLite, DBeaver o VS Code.
+
+
+🧩 **Schema concettuale**
+
+![Schema concettuale](03SQL/schema_concettuale.png)
+
+🗂️ **Schema logico**
+
+![Schema logico](03SQL/schema_logico.png)
+
+### 📂 04Python
+
+| File | A cosa serve |
+|---|---|
+| `analisi_negozio_online.ipynb` | 📓 Il notebook con tutta l'analisi, già eseguito |
+| `CONCLUSIONI.md` | ✅ Le risposte alle 6 domande |
+| `Grafici/` | 🖼️ 11 grafici in PNG |
+| `crea_notebook.py` | 🛠️ Lo script che crea il notebook |
+
+### 📂 05PowerBi
+
+| File | A cosa serve |
+|---|---|
+| `NegozioOnlineDashboard/NegozioOnline_Dashboard.pbip` | ⭐ **La dashboard**: doppio clic per aprirla in Power BI Desktop |
+| `NegozioOnline_Dashboard.pdf` | 📄 Il PDF della dashboard |
+| `misure_DAX.txt` | 🧮 Le misure DAX usate nella dashboard |
+| `tema_negozio_online.json` | 🎨 Il tema blu e arancione (già applicato) |
+| `Immagini/sfondo_pagina.png` | Lo sfondo originale delle pagine |
+| `Script/crea_powerbi.py` | Crea una copia della dashboard (`NegozioOnlineDashboardBase`) |
+| `Script/crea_immagini.py` | Disegna lo sfondo |
+
+📊 **Le 6 pagine della dashboard**
+
+1. **Il negozio**: 6 numeri chiave, ricavi per mese, per ora e per giorno
+2. **Prodotti e paesi**: classifica dei prodotti, paesi esteri, scontrino medio
+3. **Clienti (RFM)**: segmenti, ogni cliente in un grafico, migliori clienti, filtro per segmento
+4. **Ritorno**: matrice delle coorti e ritorno medio
+5. **Carrello e resi**: coppie di prodotti, resi per mese, prodotti più resi
+6. **Conclusioni**
+
 ---
 
-## 📦 6. Dati e script
+## ▶️ 6. Come rifare tutto
 
-📌 Qui ci sono solo i **risultati**: analisi, query, notebook, file Excel e dashboard.
-
-📥 I dati si possono riscaricare dalla fonte (link più sotto).
-
-🐍 Gli script Python di raccolta e pulizia dei dati sono disponibili su richiesta.
+```bash
+pip install pandas pyreadr matplotlib nbformat nbconvert pillow
+cd 01RaccoltaDati && python 01_scarica.py && python 02_pulizia.py
+cd ../03SQL && python 02_carica_dati.py
+cd ../04Python && python crea_notebook.py && jupyter nbconvert --to notebook --execute --inplace analisi_negozio_online.ipynb
+cd ../05PowerBi && python Script/crea_immagini.py && python Script/crea_powerbi.py
+```
 
 ---
 
@@ -211,6 +259,6 @@ onlineretail2.rda ──► ❌ 1.067.371 righe ──► ✅ 1.003.336 righe �
 
 🔟 **Power BI**: dashboard di 6 pagine, aperta e controllata in Power BI Desktop.
 
-1️⃣1️⃣ **Conclusioni**: risposte alle 6 domande in `02Python/02_CONCLUSIONI.md`.
+1️⃣1️⃣ **Conclusioni**: risposte alle 6 domande in `04Python/CONCLUSIONI.md`.
 
 1️⃣2️⃣ **Preparazione per GitHub**: database compresso in zip (49 MB) e file `.gitignore`.
